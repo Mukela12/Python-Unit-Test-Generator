@@ -7,14 +7,11 @@ import re
 import math
 from openai import OpenAI
 
-# Assuming you have an OpenAI API key
-OPENAI_API_KEY = "sk-proj-DeafPYIaOjhCoqRzxW4xT3BlbkFJy1uG7jnw3xrXBWbqp3Fi"
-
 def generate_unit_tests(file_path):
     with open(file_path, 'r') as file:
         python_code = file.read()
 
-    client = OpenAI(api_key=OPENAI_API_KEY)
+    client = OpenAI(api_key= os.environ.get("OPENAI_API_KEY"))
     prompt = f"Generate comprehensive unit tests starting with the first function and generating each test line by line these tests will be in text form start with the function's name for example:  'add(1,2)' for a function called add make sure to generate enough values to test all possible conditions and to have a very high coverage, pay attention to the parameters to make sure you generate accurate results and most importantly make sure to cover all cases: ```\n\n{python_code} ``` \n\n only respond with the solution as your response will be directly input into the txt file so just response with the answers no comments in the solution either, make sure to generate test cases that can break the program###"
 
     response = client.chat.completions.create(
